@@ -1,0 +1,409 @@
+\documentclass[usenames,dvipsnames, 9pt]{beamer}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{etex} %for Windows
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+%\usepackage{microtype}			% Better interword spacing and additional kerning.
+\usepackage{ellipsis}			% Adjusted space with \dots between two words.
+\usepackage{graphicx}
+\usepackage{pstricks}
+
+\usepackage{xcolor}
+
+
+\usepackage{changepage}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithmic}
+
+%\usepackage{tcolorbox}
+
+
+\usepackage{caption}
+\usepackage{subcaption}
+%\usepackage{stackengine}
+
+
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+\usetikzlibrary{positioning, backgrounds}
+\usetikzlibrary{arrows, chains, matrix, scopes, patterns, shapes, fit}
+\usetikzlibrary{mindmap,trees,shadows}
+\usetikzlibrary{decorations.pathreplacing}
+%\usetikzlibrary{crypto.symbols}
+
+\usepackage{pgfplots}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+
+\tikzset{
+	invisible/.style={opacity=0},
+	visible on/.style={alt={#1{}{invisible}}},
+	alt/.code args={<#1>#2#3}{%
+		\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+	},
+}
+
+\newcommand\strikeout[2][]{%
+	\begin{tabular}[b]{@{}c@{}} 
+		\makebox(0,0)[cb]{{#1}} \\[-0.2\normalbaselineskip]
+		\rlap{\color{Orange}\rule[0.5ex]{\widthof{#2}}{1.5pt}}#2
+\end{tabular}}
+
+\newcommand\Fontvi{\fontsize{11}{13.2}\selectfont}
+
+\usepackage{listings} % for C++ code
+
+\usepackage{braket}
+%\usepackage[braket, qm]{qcircuit}
+
+
+
+\usepackage[T1]{fontenc}
+%\usepackage[sfdefault,scaled=.85]{FiraSans}
+%\usepackage{newtxsf}
+%\usepackage[nomap]{FiraMono}
+
+
+
+
+
+\usefonttheme[onlymath]{serif}
+\renewcommand\sfdefault{cmbr}
+
+\renewcommand{\bfdefault}{sb}
+
+\definecolor{CharCoalDark}{RGB}{13, 16, 19}
+\definecolor{Orange}{RGB}{255, 165,0}
+\definecolor{DarkOrange}{RGB}{255, 165,0}
+\definecolor{LightSalmon}{RGB}{255, 160, 122}
+\definecolor{LeafGreen}{RGB}{34, 139,  34}
+\definecolor{Coral}{RGB}{255, 127, 80}
+\definecolor{DarkTurquoise}{RGB}{0, 206, 209}
+
+%\newtheorem{defRus}{Определение}
+%\newtheorem{thmRus}{Теорема}
+%s\newtheorem{corRus}{Следствие}
+
+
+\setbeamercolor{background canvas}{bg=CharCoalDark}
+
+\setbeamerfont{title}{series=\bfseries}
+\setbeamercolor{title}{fg=Orange}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{frametitle}{fg=Orange}
+\setbeamercolor{normal text}{fg=white}
+%\setbeamercolor{normal text}{fontsize=12pt}
+\setbeamercolor{itemize item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{enumerate item item}{fg=Orange}
+\setbeamercolor{itemize item item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{block title}{bg=DarkOrange,fg=white}
+\setbeamerfont{block title}{series=\bfseries}
+
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{eumerate subitem}{\color{Orange}[$\checkmark$]}
+\setbeamertemplate{itemize subitem}{\color{Orange}\Large$\textbullet$}
+\setbeamertemplate{itemize subitem}{\color{Orange} \tiny $\blacksquare$}
+
+% footnote without a marker
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\footnoterule{}
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
+
+\newcommand\Item[1][]{%
+	\ifx\relax#1\relax  \item \else \item[#1] \fi
+	\abovedisplayskip=0pt\abovedisplayshortskip=0pt~\vspace*{-\baselineskip}}
+
+\pgfdeclareradialshading{ring}{\pgfpoint{0cm}{0cm}}%
+{rgb(0cm)=(1,1,1);
+	rgb(0.7cm)=(1,1,1);
+	rgb(0.719cm)=(1,1,1);
+	rgb(0.72cm)=(0.975,0,0);
+	rgb(0.9cm)=(1,1,1)}
+
+\usepackage[absolute,overlay]{textpos} %to clip to a corner
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(\textwidth-35pt, 10 pt)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+	\save@measuring@true
+	\def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+	\def\beamer@sortzeroread##1<##2>{}%
+	\def\beamer@finalnospec{}%
+}
+\makeatother
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+
+%\institute{ENS Lyon}
+\author{Elena Kirshanova \\ [10pt]
+}
+\titlegraphic{
+	
+	%\includegraphics[width=2.5cm]{erc_logo_gray}\hspace*{2.5cm}~%
+	%\includegraphics[width=4.0cm]{ens_logo_gray}
+}
+\title{\Huge Message Authentication Code}
+
+\date{ Course ``Information and Network Security'' \\ 	
+	Lecture 5 \\ \today }
+
+
+\setbeamertemplate{navigation symbols}{} %removes navigation
+
+% proper highlightling of a code-snippet
+\lstset{language=C++,
+	keywordstyle=\color{magenta},
+	stringstyle=\color{Goldenrod},
+	commentstyle=\color{gray},
+	breaklines=false,
+	%morecomment=[l][\color{magenta}]{\#}
+}
+
+%\setlength{\parskip}{8pt}
+\input{header} %all defs
+\begin{document}
+	
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Confidentiality \& Integrity}
+\LARGE 
+
+\begin{itemize}
+	\itemsep 1em
+	\item Previous lectures dealt with {\color{Orange} confidentiality  }
+	\item This lecture's goal:  {\color{Orange} integrity (целостность)}
+\end{itemize}
+
+\vspace{20pt}
+\LARGE {\color{Orange}Primitive}: Message Authentication Code (MAC) \\[5pt]
+Имитовставка или Код Аутентификации Сообщения
+
+
+\end{frame}
+
+\begin{frame}{MAC: definition}
+\Large
+Goal: send a message $m$ from Alice to Bob s.t.\ an adversary cannot modify $m$ without Bob noticing \\[10pt]
+	\begin{center}
+		\begin{tabular}{c c c c c}
+			& Alice  & & Bob &  \\
+			& \multirow{5}{*}{\includegraphics[scale=0.20]{Alice}} & &
+			\multirow{5}{*}{\includegraphics[scale=0.20]{Bob}} &  \\
+			&  & \Huge $\xrightarrow{\mkern25mu m \mkern25mu}$ & &  \\ 
+			\pause
+			\LARGE $k \in \keyS$ &   & &  & $k \in \keyS$ \\[10pt]
+			\pause
+			$\mactag \leftarrow S(k,m)$   & & &  &  \\ 
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}{MAC: definition}
+\Large
+Goal: send a message $m$ from Alice to Bob s.t.\ an adversary cannot modify $m$ without Bob noticing \\[5pt]
+\begin{center}
+	\begin{tabular}{c c c c c}
+		& Alice  & & Bob &  \\
+		& \multirow{5}{*}{\includegraphics[scale=0.18]{Alice}} & &
+		\multirow{5}{*}{\includegraphics[scale=0.18]{Bob}} &  \\
+		&  & \Huge $\xrightarrow{\mkern25mu m, \; \mactag \mkern25mu}$ & &  \\ 
+		\LARGE $k \in \keyS$ &   & &  & $k \in \keyS$ \\[10pt]
+		$\mactag \leftarrow S(k,m)$   & & &  & \pause   \\ [20pt] 
+		\multicolumn{5}{r}{$V(k,m, \mactag) \in \{ 0, 1\}$ }  \\
+		\multicolumn{5}{r}{$0-$ Accept, $1-$Reject}  
+	\end{tabular}
+\end{center}
+\pause
+\large
+A {\color{Orange} Message Authentication Code } consists of three ppt algorithms:
+\vspace{-2pt}
+\begin{itemize}
+	\item Key generation: $\KeyGen(1^\lambda): k \leftarrow \keyS$ \\[4pt]
+	\item Tag generation: $S(k, m): \mactag \leftarrow \tagS$ \\[4pt]
+	\item Tag verification: $V(k, m, \mactag): \{0, 1\}  $
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MAC: correctness and security}
+\Large
+A {\color{Orange} Message Authentication Code } consists of three ppt algorithms:
+\vspace{-5pt}
+\begin{itemize}
+	\item Key generation: $\KeyGen(1^\lambda): k \leftarrow \keyS$ \\[4pt]
+	\item Tag generation: $S(k, m): \mactag \leftarrow \tagS$ \\[4pt]
+	\item Tag verification: $V(k, m, \mactag): \{0, 1\}  $  \\
+\end{itemize}
+
+\pause
+\vspace{10pt}
+{\color{Orange}Correcntess:} \LARGE 
+$ V(k, m, S(k,m)) = \text{Accept} \; \forall \; m \in \mesS, k \in \keyS $
+
+\vspace{10pt}
+{\color{Orange}Security:}
+For a ppt adversary $\adv$ who sees many (message, tag) pairs $\{(m_1, t_1), \ldots, (m_N, t_N) \}$ of its choice, $\adv$ cannot produce a new valid (message, tag) pair $(m,t)$
+\[(m,t) \notin \{(m_1, t_1), \ldots, (m_N, t_N) \}\]
+
+\vspace{10pt}
+
+Therefore, secure tag length: $96, 128, 256 $ bits.
+\end{frame}
+
+\begin{frame}{Constructions of MACs}
+\Large
+\begin{enumerate}
+	\itemsep1em
+	\item A block-cipher  (AES, GOST) can be used to instantiate MAC for 16-bytes messages
+	\item For longer messages:  \\
+		-- CBC-MAC (integrity of bank transactions) \\ 
+		Standards: ANSI, FIPS 186-3, GOST \\[5pt]
+		-- HMAC (SSL, IPSec)
+\end{enumerate}
+\pause
+\centering
+\LARGE
+\vspace{15pt}
+This time: CBC-MAC
+\end{frame}
+
+\begin{frame}{CBC-MAC}
+\Large
+ $m = (m_1, m_2, m_3, ...)$, $F-$ a block cipher of block length $|m_i|$  
+	\begin{figure}
+		\includegraphics[width=0.95\textwidth]{CBC_MAC}
+	\end{figure}
+\vspace{-90pt}
+\pause
+\Large 
+$k, k1$ - two different keys for $F $  shared by the parties\\ [10pt]
+\pause
+Verification executes the same routine \\ [10pt]
+\pause
+Double encryption of the last block is important \\
+to prevent against insecure MACs (see PA4) \\[15pt]
+The output $\mactag$ can be truncated to the desired bit length, but not less than $64$ bits.
+\end{frame}
+
+\begin{frame}{Compare CBC-MAC with CBC-mode for block-ciphers}
+\vspace{10pt}
+\begin{minipage}{0.18\textwidth} \Large CBC-MAC: \end{minipage}
+\begin{minipage}{0.80\textwidth}
+\begin{figure}
+	\includegraphics[width=0.9\textwidth]{CBC_MAC} 
+\end{figure}
+\end{minipage}
+\vspace{-10pt}
+\begin{minipage}{0.18\textwidth} \Large CBC-mode: \end{minipage}
+\begin{minipage}{0.80\textwidth}
+	\begin{figure}
+		\includegraphics[width=0.9\textwidth]{CBC_1} 
+	\end{figure}
+\end{minipage}
+
+\end{frame}
+
+\begin{frame}{Padding}
+\Large
+\begin{center}
+What if $\mathbf{m} = (m_1, m_2, ...)$ is not a multiple of the block length?
+\end{center}
+Example of {\color{Orange} bad} padding: filling up with $0'$s.
+\[m = (\star \star \star  )\] 
+that has length $<$ block length. Padding of such message:
+\[m_{\text{padded}}=(\star \star \star  \; 0 \ldots 0  ) \]. Then for another message $m'$:
+\[S(k,m_{\text{padded}}) = S(k, m'=(\star \star \star  \; 0 \ldots 0  ))\]
+For any $m$, $S(m)=S(m||0)$.
+
+\pause
+\vspace{10pt}
+\LARGE \centering
+For $\mathbf{m} \neq \mathbf{m'}$ we want $\mathbf{m}||\text{pad} \neq \mathbf{m'}||\text{pad}$. In particular, padding must be $1 \leftrightarrow 1$.
+	
+\end{frame}
+
+\begin{frame}{Padding}
+	\Large
+	\begin{enumerate}
+		\itemsep1em
+		\item {\color{Orange} ISO.} Pad with $10\ldots0$. `1' indicates beginning of the padding. \\
+		Add a dummy block if $|m| < $ block length
+		\pause 
+		\item {\color{Orange} NIST, GOST}  
+		\begin{figure}
+			\captionsetup[subfigure]{labelformat=empty}
+			%\centering
+			%\stackunder[5pt]{\includegraphics[width=.47\textwidth]{CBC_Mac_Padding}}{MRI-CGCM3}
+			%\stackunder[5pt]{\includegraphics[width=.47\textwidth]{CBC_Mac_Padding_1}}{NorESM1-M}
+			\begin{subfigure}{.5\textwidth}
+				\centering
+				\includegraphics[width=.98\textwidth]{CBC_Mac_Padding}
+				\caption{$m_4$< block-length}
+			\end{subfigure}%
+		 \begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=.98\textwidth]{CBC_Mac_Padding_1}
+			\caption{$m_4$= block-length}
+		\end{subfigure}%
+		\end{figure}
+		\vspace{1em}
+		Advantages: No dummy block, no additional application of $F$.
+		 
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Some details on Programming Assignment 4}
+\Large
+Assume our tag is generated without the last encryption step for one-block message $m $ ($|m|=128$ bits).
+\begin{figure}
+	\includegraphics[width=0.8\textwidth]{Raw_CBC_Mac} 
+\end{figure}
+
+\vspace{-30pt}
+Your task is to demonstrate an efficient tag forgery for such construction: by having $(m,t)$ - a valid (message, tag) pair, provide another valid pair $(m', t)$. \\
+\emph{Hint:} $m'$ might consist of two blocks.
+	
+\end{frame}
+
+\begin{frame}{Concluding slide}
+\LARGE
+	\begin{enumerate}
+		\itemsep 1em
+		\item Other types of MACs exist: Parallel Mac (PMAC), One-time MAC
+		\item MACs are not Checksums! MACs {\color{Orange} require} secret keys
+		\item DO NOT follow the Russian Wikipedia article on MACs
+		\item For Russian project follow GOST'15 guidelines (link is on the course's webpage)
+	\end{enumerate}
+\vspace{10pt}
+Next time: Message integrity with cryptographic hash functions
+\end{frame}
+
+\end{document}

@@ -1,0 +1,319 @@
+\documentclass[usenames,dvipsnames, 9pt]{beamer}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{etex} %for Windows
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+%\usepackage{microtype}			% Better interword spacing and additional kerning.
+\usepackage{ellipsis}			% Adjusted space with \dots between two words.
+\usepackage{graphicx}
+\usepackage{pstricks}
+
+\usepackage{xcolor}
+
+
+\usepackage{changepage}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithmic}
+
+%\usepackage{tcolorbox}
+
+
+\usepackage{caption}
+\usepackage{subcaption}
+%\usepackage{stackengine}
+
+
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+\usetikzlibrary{positioning, backgrounds}
+\usetikzlibrary{arrows, chains, matrix, scopes, patterns, shapes, fit}
+\usetikzlibrary{mindmap,trees,shadows}
+\usetikzlibrary{decorations.pathreplacing}
+%\usetikzlibrary{crypto.symbols}
+
+\usepackage{pgfplots}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+
+\tikzset{
+	invisible/.style={opacity=0},
+	visible on/.style={alt={#1{}{invisible}}},
+	alt/.code args={<#1>#2#3}{%
+		\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+	},
+}
+
+\newcommand\strikeout[2][]{%
+	\begin{tabular}[b]{@{}c@{}} 
+		\makebox(0,0)[cb]{{#1}} \\[-0.2\normalbaselineskip]
+		\rlap{\color{Orange}\rule[0.5ex]{\widthof{#2}}{1.5pt}}#2
+\end{tabular}}
+
+\newcommand\Fontvi{\fontsize{11}{13.2}\selectfont}
+
+\usepackage{listings} % for C++ code
+
+\usepackage{braket}
+%\usepackage[braket, qm]{qcircuit}
+
+
+
+\usepackage[T1]{fontenc}
+%\usepackage[sfdefault,scaled=.85]{FiraSans}
+%\usepackage{newtxsf}
+%\usepackage[nomap]{FiraMono}
+
+
+
+
+
+\usefonttheme[onlymath]{serif}
+\renewcommand\sfdefault{cmbr}
+
+\renewcommand{\bfdefault}{sb}
+
+\definecolor{CharCoalDark}{RGB}{13, 16, 19}
+\definecolor{Orange}{RGB}{255, 165,0}
+\definecolor{DarkOrange}{RGB}{255, 165,0}
+\definecolor{LightSalmon}{RGB}{255, 160, 122}
+\definecolor{LeafGreen}{RGB}{34, 139,  34}
+\definecolor{Coral}{RGB}{255, 127, 80}
+\definecolor{DarkTurquoise}{RGB}{0, 206, 209}
+
+%\newtheorem{defRus}{Определение}
+%\newtheorem{thmRus}{Теорема}
+%s\newtheorem{corRus}{Следствие}
+
+
+\setbeamercolor{background canvas}{bg=CharCoalDark}
+
+\setbeamerfont{title}{series=\bfseries}
+\setbeamercolor{title}{fg=Orange}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{frametitle}{fg=Orange}
+\setbeamercolor{normal text}{fg=white}
+%\setbeamercolor{normal text}{fontsize=12pt}
+\setbeamercolor{itemize item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{enumerate item item}{fg=Orange}
+\setbeamercolor{itemize item item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{block title}{bg=DarkOrange,fg=white}
+\setbeamerfont{block title}{series=\bfseries}
+
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{eumerate subitem}{\color{Orange}[$\checkmark$]}
+\setbeamertemplate{itemize subitem}{\color{Orange}\Large$\textbullet$}
+\setbeamertemplate{itemize subitem}{\color{Orange} \tiny $\blacksquare$}
+
+% footnote without a marker
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\footnoterule{}
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
+
+\newcommand\Item[1][]{%
+	\ifx\relax#1\relax  \item \else \item[#1] \fi
+	\abovedisplayskip=0pt\abovedisplayshortskip=0pt~\vspace*{-\baselineskip}}
+
+\pgfdeclareradialshading{ring}{\pgfpoint{0cm}{0cm}}%
+{rgb(0cm)=(1,1,1);
+	rgb(0.7cm)=(1,1,1);
+	rgb(0.719cm)=(1,1,1);
+	rgb(0.72cm)=(0.975,0,0);
+	rgb(0.9cm)=(1,1,1)}
+
+\usepackage[absolute,overlay]{textpos} %to clip to a corner
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(\textwidth-35pt, 10 pt)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+	\save@measuring@true
+	\def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+	\def\beamer@sortzeroread##1<##2>{}%
+	\def\beamer@finalnospec{}%
+}
+\makeatother
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+
+%\institute{ENS Lyon}
+\author{Elena Kirshanova \\ [10pt]
+}
+\titlegraphic{
+	
+	\includegraphics[width=2.5cm]{stayhome}%
+	%\includegraphics[width=4.0cm]{ens_logo_gray}
+}
+\title{\Huge Decentralized Privacy-Preserving Proximity Tracing \\[5pt]
+\Large Based on the document \url{https://github.com/DP-3T/documents}
+}
+
+\date{ Course ``Information and Network Security''  \today }
+
+
+\setbeamertemplate{navigation symbols}{} %removes navigation
+
+% proper highlightling of a code-snippet
+\lstset{language=C++,
+	keywordstyle=\color{magenta},
+	stringstyle=\color{Goldenrod},
+	commentstyle=\color{gray},
+	breaklines=false,
+	%morecomment=[l][\color{magenta}]{\#}
+}
+
+%\setlength{\parskip}{8pt}
+\input{header} %all defs
+\begin{document}
+	
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{Goal}
+	\Large 
+		{\color{Orange}  How to identify people who have been in contact with an infected person? }\\[5pt]
+	\pause
+	Academics issued a proposal of a design of an app aiming at 	{\color{Orange} proximiti tracing} -- determining who has been in close physical proximity to an infected person.\\[10pt]
+	
+	Main purpose: quick notification of contact people \\[10pt]
+	
+	{\color{Orange} Ideally} the app should ensure {\color{Orange}security} and {\color{Orange} privacy} for users.  \\
+	
+	This mini-lecture: overview of the design proposal \\
+	
+	
+	\vfill
+	Please visit \url{https://github.com/DP-3T/documents} for  details
+	
+\end{frame}
+
+\begin{frame}{High level idea}
+	
+\end{frame}
+
+
+\begin{frame}{High level idea}
+\begin{itemize}
+	\item the app generates a pseudorandom ID (using a PRG) that represents a user 
+	\item This ID is continually broadcasted via BlueTooth
+	\item the app records all IDs observed in the proximity
+	\item if ID$^\star$ is diagnosed for the virus, the user ID$^\star$ uploads all its recorded IDs to a central server
+	\item  the app once in a while downloads data from the severs and locally checks if any of the recorded IDs has been diagnosed for the virus
+\end{itemize}
+\pause
+{\color{Orange} Privacy} considerations:
+\begin{itemize}
+\item the central server only stores IDs of infected people (no proximity data is uploaded)
+\item Nobody can track non-infected users seeing only their IDs
+\item No entity should be able to use the known data for  malicious purposes (e.g.,  misuse of recording)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{More details I}
+%\large
+\begin{enumerate}
+	\itemsep 1em
+	\item  {\color{Orange}Secret Key Generation:}
+	
+	For the day $t$, the smartphone generates a random key $S_t $:
+	
+	\[S_t \leftarrow \KeyGen(t)\]
+	 using, for example, \ a PRG (see lecture 2). \\[5pt]
+	 
+	 For the next days, the secret keys $S_{t+i}$ are generated using a {\color{Orange}cryptographic hash function} $\Hash$:
+	 \[
+	 	S_{t+i} = \Hash(S_{t+i-1})
+	 \]
+	 \pause 
+	 \item {\color{Orange} Ephemeral ID generation:}  Each user changes his $\EID$ $n$ times per day (tunable parameter). \\
+	 At the beginning of day $t$, the app generates $n$ ephemeral IDs  $\EID$ as
+	 
+	 \[
+	 	\EID_1 || \ldots || \EID_n = \text{PRG} (  \Hash (S_t, \texttt{``broadcast key''}) ),
+	 \]
+	 \pause 
+	 Each $|\EID_i|$ is 16 bytes (Bluetooth Low Energy beacons payload)
+	 
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{More details II}
+\begin{enumerate}
+	\itemsep 1em
+	\setcounter{enumi}{2}
+	\item {\color{Orange} Local storage of observed data:}
+	``Seeing'' any $\EID$ in proximity, each smartphone stores
+	\begin{itemize}
+		\item $\EID$ 
+		\item duration of contact
+		\item proximity
+		\item time indication (April, 13)
+	\end{itemize} 
+This whole data occupies approx.\ 32 bytes.
+\pause
+	\item {\color{Orange} If a user is infected:} on the day $t$:	
+	\begin{itemize}
+	\item The user sends $S_t$ to the central server 
+	\item The sever stores pairs $(S_t, t)$ and broadcasts them to all users.
+	\item The infected user chooses a completely new secret key 
+	\end{itemize}
+\pause
+\item {\color{Orange} Notification of risk:} 	\\
+	\begin{itemize}
+		\item The server broadcasts secret keys $(S_t,t)$ of infected users
+		\item Each user loads $(S_t,t)$  and recomputes the corresponding $\EID'$s
+		\item And checks these $\EID'$ against the locally stored ones. 
+	\end{itemize}
+\end{enumerate}
+\end{frame}
+
+{
+	\setbeamercolor{background canvas}{bg=white}
+	
+	\begin{frame}{{\color{Black}In picture I}}
+	\vspace{-30pt}
+	\begin{figure}
+		\includegraphics[width=1.1\textwidth]{Pic1}
+	\end{figure}
+	\small
+	\vfill
+	{\color{gray} The picture is taken from DP3T White Paper.pdf \url{https://github.com/DP-3T/documents/blob/master/DP3T\%20White\%20Paper.pdf}}
+\end{frame}
+	
+	\begin{frame}{{\color{Black}In picture II}}
+	\vspace{-30pt}
+		\begin{figure}
+			\includegraphics[width=1.1\textwidth]{Pic2}
+		\end{figure}
+	\small
+	\vspace{-10pt}
+	{\color{gray} The picture is taken from DP3T White Paper.pdf \url{https://github.com/DP-3T/documents/blob/master/DP3T\%20White\%20Paper.pdf}}
+\end{frame}
+}
+
+\end{document}

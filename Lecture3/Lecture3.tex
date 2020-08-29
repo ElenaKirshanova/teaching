@@ -1,0 +1,495 @@
+\documentclass[usenames,dvipsnames, 9pt]{beamer}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{etex} %for Windows
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+%\usepackage{microtype}			% Better interword spacing and additional kerning.
+\usepackage{ellipsis}			% Adjusted space with \dots between two words.
+\usepackage{graphicx}
+\usepackage{pstricks}
+
+\usepackage{xcolor}
+
+
+\usepackage{changepage}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithmic}
+
+%\usepackage{tcolorbox}
+
+
+
+
+
+
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+\usetikzlibrary{positioning, backgrounds}
+\usetikzlibrary{arrows, chains, matrix, scopes, patterns, shapes, fit}
+\usetikzlibrary{mindmap,trees,shadows}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{crypto.symbols}
+
+\usepackage{pgfplots}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+
+\tikzset{
+	invisible/.style={opacity=0},
+	visible on/.style={alt={#1{}{invisible}}},
+	alt/.code args={<#1>#2#3}{%
+		\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+	},
+}
+
+\newcommand\strikeout[2][]{%
+	\begin{tabular}[b]{@{}c@{}} 
+		\makebox(0,0)[cb]{{#1}} \\[-0.2\normalbaselineskip]
+		\rlap{\color{Orange}\rule[0.5ex]{\widthof{#2}}{1.5pt}}#2
+\end{tabular}}
+
+\newcommand\Fontvi{\fontsize{11}{13.2}\selectfont}
+
+\usepackage{listings} % for C++ code
+
+\usepackage{braket}
+%\usepackage[braket, qm]{qcircuit}
+
+
+
+\usepackage[T1]{fontenc}
+%\usepackage[sfdefault,scaled=.85]{FiraSans}
+%\usepackage{newtxsf}
+%\usepackage[nomap]{FiraMono}
+
+
+
+
+
+\usefonttheme[onlymath]{serif}
+\renewcommand\sfdefault{cmbr}
+
+\renewcommand{\bfdefault}{sb}
+
+\definecolor{CharCoalDark}{RGB}{13, 16, 19}
+\definecolor{Orange}{RGB}{255, 165,0}
+\definecolor{DarkOrange}{RGB}{255, 165,0}
+\definecolor{LightSalmon}{RGB}{255, 160, 122}
+\definecolor{LeafGreen}{RGB}{34, 139,  34}
+\definecolor{Coral}{RGB}{255, 127, 80}
+\definecolor{DarkTurquoise}{RGB}{0, 206, 209}
+
+%\newtheorem{defRus}{Определение}
+%\newtheorem{thmRus}{Теорема}
+%s\newtheorem{corRus}{Следствие}
+
+
+\setbeamercolor{background canvas}{bg=CharCoalDark}
+
+\setbeamerfont{title}{series=\bfseries}
+\setbeamercolor{title}{fg=Orange}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{frametitle}{fg=Orange}
+\setbeamercolor{normal text}{fg=white}
+%\setbeamercolor{normal text}{fontsize=12pt}
+\setbeamercolor{itemize item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{enumerate item item}{fg=Orange}
+\setbeamercolor{itemize item item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{block title}{bg=DarkOrange,fg=white}
+\setbeamerfont{block title}{series=\bfseries}
+
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{eumerate subitem}{\color{Orange}[$\checkmark$]}
+\setbeamertemplate{itemize subitem}{\color{Orange}\Large$\textbullet$}
+\setbeamertemplate{itemize subitem}{\color{Orange} \tiny $\blacksquare$}
+
+% footnote without a marker
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\footnoterule{}
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
+
+\newcommand\Item[1][]{%
+	\ifx\relax#1\relax  \item \else \item[#1] \fi
+	\abovedisplayskip=0pt\abovedisplayshortskip=0pt~\vspace*{-\baselineskip}}
+
+\pgfdeclareradialshading{ring}{\pgfpoint{0cm}{0cm}}%
+{rgb(0cm)=(1,1,1);
+	rgb(0.7cm)=(1,1,1);
+	rgb(0.719cm)=(1,1,1);
+	rgb(0.72cm)=(0.975,0,0);
+	rgb(0.9cm)=(1,1,1)}
+
+\usepackage[absolute,overlay]{textpos} %to clip to a corner
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(\textwidth-35pt, 10 pt)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+	\save@measuring@true
+	\def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+	\def\beamer@sortzeroread##1<##2>{}%
+	\def\beamer@finalnospec{}%
+}
+\makeatother
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+
+%\institute{ENS Lyon}
+\author{Elena Kirshanova \\ [10pt]
+}
+\titlegraphic{
+	
+	%\includegraphics[width=2.5cm]{erc_logo_gray}\hspace*{2.5cm}~%
+	%\includegraphics[width=4.0cm]{ens_logo_gray}
+}
+\title{\Huge Block ciphers}
+
+\date{ Course ``Information and Network Security'' \\ 	
+	Lecture 3 \\ \today }
+
+
+\setbeamertemplate{navigation symbols}{} %removes navigation
+
+% proper highlightling of a code-snippet
+\lstset{language=C++,
+	keywordstyle=\color{magenta},
+	stringstyle=\color{Goldenrod},
+	commentstyle=\color{gray},
+	breaklines=false,
+	%morecomment=[l][\color{magenta}]{\#}
+}
+
+%\setlength{\parskip}{8pt}
+\input{header} %all defs
+\begin{document}
+	
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+\begin{frame}{Recap: PRG}
+\LARGE 
+
+\begin{itemize}
+\itemsep1em
+
+\item `Random' in crypto may come from two sources:
+
+\begin{itemize}
+	\item A `true' random number generator (or entropy generator) 
+	\item An algorithmic ‘pseudorandom number generator’ (PRNG) 
+\end{itemize}
+
+\item 	{\color{Orange}\textbf{Pseudorandom generator (PRG)}} -- efficient algorithm taking on input truly random bits (seem) and outputting bits that are indistinguishable from random by ppt adversaries 
+
+\item Examples: in Linux: $\mathsf{/dev/random},\mathsf{/dev/urandom}$ (not recommended for crypto applications); both use the same PRG (SHA-1); on Windows: CryptoAPI's  $\mathsf{CryptGenRandom}$
+
+\item Better use established cryptographic PRGs, e.g.\ ChaCha, Salsa, HMAC-SHA1 or CBC-AES
+
+\item Be aware of backdoored PRGs:  Dual EC DRBG
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Recap: PRG}
+\LARGE 
+
+\begin{itemize}
+	\itemsep1em
+	\item Statistical Tests: Diehard, NIST’s SP 800-22
+	\item Known Answer Tests : BETTER NOT IN CODE RELEASE
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Recap: Stream ciphers}
+	\LARGE 
+	
+	\begin{itemize}
+		\itemsep1em
+		\item Symmetric key is a seed to a PRG
+		\item Encrypt:  $\Enc(m, s) = \mathsf{PRG}(s) \oplus m = c$ \\
+				 Decrypt: $\Dec(c, s) = \mathsf{PRG}(s) \oplus c$
+		\item ``Primitive''(=OTP) stream ciphers  are typically very fast and simple
+		\item ... but inappropriate (=insecure) for many scenarios: broken by key re-use, require integrity checking
+		\item Examples of practical stream ciphers: RC4, Trivium, A5/1 Generator
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Block cipher}
+\LARGE
+	\begin{block}{Formal definition}
+		A {\color{Orange}\textbf{Block cipher}} is a deterministic cipher with $\mathcal{X}:=\mesS = \cipS$ and a function
+		\[
+			f(k, \cdot): \mathcal{X} \rightarrow \mathcal{X}
+		\]
+	\end{block}
+\begin{itemize}
+	\item Correctness $\implies$ $f(k, \cdot)$ is one-to-one for all $k$. \\
+	\item $|\mathcal{X}| < \infty$. \\
+\end{itemize}
+
+Thus, $f(k, \cdot)$ is a permutation on $\mathcal{X}$. \\[10pt]
+
+{\color{Orange}\textbf{Security (informal) :}} $f(k, \cdot)$ ``looks like'' a random permutation 
+\end{frame}
+
+\begin{frame}{Block cipher in pictures}
+		\begin{tikzpicture}
+	%\draw[-stealth, thick] (-1.8,-1.0) -- (-1.0,-1.0) node[above,midway]{\Huge $b$};
+	\draw[fill=CharCoalDark, draw=white, opacity=0.5] (-1.0,0.0) rectangle (2.0,1.0)  node[color=white, opacity=1,align=center, pos=0.5]{
+		\LARGE  {Plaintext}  
+	} node[above, midway, yshift=17pt]{\Large $n$ bits};
+	\draw[-stealth, thick] (2.0,0.5) -- (3.0,0.5);
+
+	\draw[fill=CharCoalDark, draw=white, opacity=0.5] (3.0,0.0) rectangle (5.0,1.0)  node[color=white, opacity=1,align=center, pos=0.5]{
+		\LARGE  {$f, f^{-1}$}  
+	};
+	\draw[-stealth, thick] (5.0,0.5) -- (6.0,0.5);
+	
+	\draw[fill=CharCoalDark, draw=white, opacity=0.5] (2.5,2.2) rectangle (5.5,3.0)  node[color=white, opacity=1,align=center, pos=0.5]{
+		\LARGE  {Key}  
+	} node[above, midway, yshift=12pt]{\Large $k$ bits};
+
+	\draw[-stealth, thick] (4.0,2.2) -- (4.0,1.0);
+	
+	\draw[fill=CharCoalDark, draw=white, opacity=0.5] (6.0,0.0) rectangle (9.0,1.0)  node[color=white, opacity=1,align=center, pos=0.5]{
+		\LARGE  {Ciphertext}  
+	} node[above, midway, yshift=17pt]{\Large $n$ bits};
+	\end{tikzpicture}
+	
+	\vspace{15pt}
+	\LARGE
+	Examples:\\
+	\begin{itemize}
+		\item AES: $n = 128$, $k = 128, 192, 256$
+		\item ГОСТ 34.12-2018: $n=128$, $k=256$ (Кузнечик)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{A bit of history}
+\Large
+\begin{itemize}
+	
+	\itemsep1em
+	\item {\color{Orange}\textbf{70's}:} IBM designs Lucifer. $k=128, n = 128$ 
+	\item {\color{Orange}\textbf{'76}:} DES is standardised $k=56, n = 64$
+	\item {\color{Orange}\textbf{'98}:} 3DES is standardised $k=168, n = 64$
+	\item {\color{Orange}\textbf{'00}:} AES winner Rejndael $k=\{128, 192, 256\}, n = 128$
+\end{itemize}
+
+\vspace{10pt}
+Russian standards:\\
+
+\begin{itemize}
+	
+	\itemsep1em
+	\item {\color{Orange}\textbf{'89}:} ГОСТ 28147-89 $k=256, n = 64$ 
+	\item {\color{Orange}\textbf{'15 }:} ГОСТ Р 34.12-2015, RFC 7801 $k=256, n = 128$ 
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}{Block ciphers are iterative}
+	\begin{figure}
+		\includegraphics[width=1.1\textwidth]{BlockCipher}
+	\end{figure}
+	
+	\Large 
+	$x$ -- plaintext, $y$ -- ciphertext
+	\vfill
+	\small
+	{\color{gray}\textbf{picture is taken from D.Boneh, V.Shoup A Graduate Course in Applied Cryptography}} 
+\end{frame}
+
+\begin{frame}{Two main paradigms in block cipher designs}
+
+\begin{itemize}
+	\itemsep 2em
+	\LARGE
+	\item Feistel cipher \\
+	Сеть Фейстеля
+	\\[5pt]
+	
+	\Large
+	Examples: DES, ГОСТ 28147-89
+	\LARGE
+	\item Substitution-Permutation Network (SPN). \\ Подстановочно-перестановочная сеть  \\[5pt]
+	\Large
+	Examples: AES, ГОСТ 34.12-2018
+	
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Feistel Cipher}
+\Large
+	Provides a generic way to build invertible functions from arbitrary functions. \\[10pt]
+	Given \hspace{40pt} $f_1, \ldots, f_r: \{0,1\}^n \rightarrow \{0,1\}^n$ \\[7pt]
+	construct an invertible $F:\{0,1\}^{2n} \rightarrow \{0,1\}^{2n}$ \\
+	
+	\vspace{20pt}
+	\pause
+	
+	{\color{Orange}\textbf{Security (informal) :}} if $f: \keyS \times \{0,1\}^n \rightarrow \{0,1\}$ ``looks like'' a random function, then 3-Round Feistel $F: \keyS^3 \times \{0,1\}^{2n} \rightarrow \{0,1\}^{2n}$ is a pseudorandom permutation. 
+\end{frame}
+
+
+\begin{frame}{Example: GOST'89 Round function}
+\centering
+\tikzmark{start}
+\includegraphics[height=0.85\textheight]{GostRound}
+\tikzmark{end} 
+\end{frame}
+
+\begin{frame}{What's S-box?}
+	\LARGE
+	\[
+		S:= \{0,1\}^n \rightarrow \{0,1\}^m
+	\]
+
+	\begin{itemize}
+		\item Implemented as a look-up table
+		\item There can be several S-boxes in one block-cipher
+		\item Designed to be resistant to linear and differential cryptanalysis
+		\item Must not contain any fixed points: \\ $S(x) \neq x $, $S(x) \neq  \bar{x} \; \forall x$
+		\item S-box is {\color{Orange}\textbf{perfect}} if it's a \emph{bent} function (i.e., as ``far way'' from linear of affine boolean function as possible) 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Example: S-box in DES}
+	\Large
+	\[
+	S:= \{0,1\}^6 \rightarrow \{0,1\}^4
+	\]
+	
+	\begin{figure}
+		\includegraphics[width=1.1\textwidth]{DES_Sbox}
+			\hspace{2em}
+	\end{figure}
+\vfill
+\small
+{\color{gray} {picture taken from Wikipedia}} 
+\end{frame}
+
+\begin{frame}{Example: S-box in AES}
+\Large
+\[
+S:= \{0,1\}^8 \rightarrow \{0,1\}^8
+\]
+
+\begin{figure}
+\includegraphics[width=0.7\textwidth]{AES_Sbox}
+\end{figure}
+
+\vfill
+\small
+{\color{gray} {picture taken from Wikipedia}} 
+
+\end{frame}
+
+\begin{frame}{Substitution-Permutation Network (SPN)}
+\centering
+\tikzmark{start}
+\includegraphics[height=\textheight, angle=90, origin=c]{SPN}
+\tikzmark{end} 
+
+\end{frame}
+
+\begin{frame}{AES: an SPN cipher}
+	\begin{figure}
+		\includegraphics[width=1.1\textwidth]{AES_128}
+	\end{figure}
+	
+	\Large 
+	\[
+		\Pi_{\text{AES}}  = \{0,1\}^{128} \rightarrow \{0,1\}^{128} - \text{ invertible permutation }
+	\]
+	\vfill
+	\small
+	{\color{gray}\textbf{picture is taken from D.Boneh, V.Shoup A Graduate Course in Applied Cryptography}} 
+\end{frame}
+
+\begin{frame}{Attacks on block ciphers}
+
+\Large
+{\color{Orange}\textbf{Exhaustive search}}  for block cipher key. \\[5pt]
+	
+	For DES/AES/GOST: \textbf{two} plaintext/ciphertext pairs $(m_1, c_1 = \Enc(k, m_1)), (m_2, c_2=\Enc(k,m_2))$ \\ determine $k$ with sufficiently high probability \\[10pt]
+	
+	
+{\color{Orange}\textbf{Example}}  : For DES find $k \in \{0,1\}^{56}$	s.t.\ $c_i = \Enc(m_i, k)$. \\[10pt]
+
+Cryptanalytic efforts: \\
+\begin{itemize}
+	\item {\color{Orange}\textbf{In '99}} ~22h on  DeepCrack + distributed.net (a bit expensive hardware)\\
+	\item {\color{Orange}\textbf{In '07}}~13 days COPACOBANA (cheaper)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Advanced attacks on block ciphers}
+\LARGE
+\begin{itemize}
+	\itemsep 1em
+	\item Design attacks: linear \& differential cryptnalalysis 
+	
+	Target:  find a linear relation in bit positions
+	
+	\begin{align*}
+	& \Pr \left[ m[S_0] \oplus \Enc(k, m)[S_1 ] = k[S_2]  \right]  \geq 1/2 + \varepsilon  \\
+	& S_i \subset \{0,\ldots, n-1\} \quad \forall k \text { and random } m
+	\end{align*}
+	\pause
+	
+	\item Side-channel attacks:
+	\Large{measure {\color{Orange}\textbf{time}} or {\color{Orange}\textbf{power}} needed for  $\Enc, \Dec$ } \pause
+	\LARGE
+	\item Fault-injection attacks: 
+	\Large cause the hardware to introduce errors at runtime (heat, EM interference)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Take-home message}
+\Huge
+
+\begin{itemize}
+	\itemsep 2em
+	\item {\color{Orange}\textbf{DON'T}} design {\color{Orange}\textbf{YOUR OWN}} block-cipher 
+	\item {\color{Orange}\textbf{TRY NOT TO}}  implement cryptoprimitives yourself if good implementations exist
+	\item Choose key-sizes wisely 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Further reading}
+	\begin{figure}
+		\includegraphics[height=0.7\textheight]{Book_cover}
+	\end{figure}
+\end{frame}
+
+\end{document}

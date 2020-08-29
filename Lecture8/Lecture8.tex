@@ -1,0 +1,435 @@
+\documentclass[usenames,dvipsnames, 9pt]{beamer}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{etex} %for Windows
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel} 
+%\usepackage{microtype}			% Better interword spacing and additional kerning.
+\usepackage{ellipsis}			% Adjusted space with \dots between two words.
+\usepackage{graphicx}
+\usepackage{pstricks}
+
+\usepackage{xcolor}
+
+
+\usepackage{changepage}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usepackage[]{algorithm2e}
+%\usepackage{algorithmic}
+
+%\usepackage{tcolorbox}
+
+
+\usepackage{caption}
+\usepackage{subcaption}
+%\usepackage{stackengine}
+
+
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
+\usetikzlibrary{positioning, backgrounds}
+\usetikzlibrary{arrows, chains, matrix, scopes, patterns, shapes, fit}
+\usetikzlibrary{mindmap,trees,shadows}
+\usetikzlibrary{decorations.pathreplacing}
+%\usetikzlibrary{crypto.symbols}
+
+\usepackage{pgfplots}
+
+\pgfmathdeclarefunction{gauss}{2}{%
+	\pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+
+\tikzset{
+	invisible/.style={opacity=0},
+	visible on/.style={alt={#1{}{invisible}}},
+	alt/.code args={<#1>#2#3}{%
+		\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+	},
+}
+
+\newcommand\strikeout[2][]{%
+	\begin{tabular}[b]{@{}c@{}} 
+		\makebox(0,0)[cb]{{#1}} \\[-0.2\normalbaselineskip]
+		\rlap{\color{Orange}\rule[0.5ex]{\widthof{#2}}{1.5pt}}#2
+\end{tabular}}
+
+\newcommand\Fontvi{\fontsize{11}{13.2}\selectfont}
+
+\usepackage{listings} % for C++ code
+
+\usepackage{braket}
+%\usepackage[braket, qm]{qcircuit}
+
+
+
+\usepackage[T1]{fontenc}
+%\usepackage[sfdefault,scaled=.85]{FiraSans}
+%\usepackage{newtxsf}
+%\usepackage[nomap]{FiraMono}
+
+
+
+
+
+\usefonttheme[onlymath]{serif}
+\renewcommand\sfdefault{cmbr}
+
+\renewcommand{\bfdefault}{sb}
+
+\definecolor{CharCoalDark}{RGB}{13, 16, 19}
+\definecolor{Orange}{RGB}{255, 165,0}
+\definecolor{DarkOrange}{RGB}{255, 165,0}
+\definecolor{LightSalmon}{RGB}{255, 160, 122}
+\definecolor{LeafGreen}{RGB}{34, 139,  34}
+\definecolor{Coral}{RGB}{255, 127, 80}
+\definecolor{DarkTurquoise}{RGB}{0, 206, 209}
+
+%\newtheorem{defRus}{Определение}
+%\newtheorem{thmRus}{Теорема}
+%s\newtheorem{corRus}{Следствие}
+
+
+\setbeamercolor{background canvas}{bg=CharCoalDark}
+
+\setbeamerfont{title}{series=\bfseries}
+\setbeamercolor{title}{fg=Orange}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{frametitle}{fg=Orange}
+\setbeamercolor{normal text}{fg=white}
+%\setbeamercolor{normal text}{fontsize=12pt}
+\setbeamercolor{itemize item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{enumerate item item}{fg=Orange}
+\setbeamercolor{itemize item item}{fg=Orange}
+\setbeamercolor{enumerate item}{fg=Orange}
+\setbeamercolor{block title}{bg=DarkOrange,fg=white}
+\setbeamerfont{block title}{series=\bfseries}
+
+\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{eumerate subitem}{\color{Orange}[$\checkmark$]}
+\setbeamertemplate{itemize subitem}{\color{Orange}\Large$\textbullet$}
+\setbeamertemplate{itemize subitem}{\color{Orange} \tiny $\blacksquare$}
+
+% footnote without a marker
+\newcommand\blfootnote[1]{%
+	\begingroup
+	\renewcommand\footnoterule{}
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{\ensuremath{#2}}}%
+
+\newcommand\Item[1][]{%
+	\ifx\relax#1\relax  \item \else \item[#1] \fi
+	\abovedisplayskip=0pt\abovedisplayshortskip=0pt~\vspace*{-\baselineskip}}
+
+\pgfdeclareradialshading{ring}{\pgfpoint{0cm}{0cm}}%
+{rgb(0cm)=(1,1,1);
+	rgb(0.7cm)=(1,1,1);
+	rgb(0.719cm)=(1,1,1);
+	rgb(0.72cm)=(0.975,0,0);
+	rgb(0.9cm)=(1,1,1)}
+
+\usepackage[absolute,overlay]{textpos} %to clip to a corner
+\newcommand\FrameText[1]{%
+	\begin{textblock*}{\paperwidth}(\textwidth-35pt, 10 pt)
+		\raggedright #1\hspace{.5em}
+\end{textblock*}}
+
+\makeatletter
+\let\save@measuring@true\measuring@true
+\def\measuring@true{%
+	\save@measuring@true
+	\def\beamer@sortzero##1{\beamer@ifnextcharospec{\beamer@sortzeroread{##1}}{}}%
+	\def\beamer@sortzeroread##1<##2>{}%
+	\def\beamer@finalnospec{}%
+}
+\makeatother
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+
+%\institute{ENS Lyon}
+\author{Elena Kirshanova \\ [10pt]
+}
+\titlegraphic{
+	
+	%\includegraphics[width=2.5cm]{stayhome}%
+	%\includegraphics[width=4.0cm]{ens_logo_gray}
+}
+\title{\Huge Key Exchange}
+
+\date{ Course ``Information and Network Security'' \\ 	
+	Lecture 8 \\ \today }
+
+
+\setbeamertemplate{navigation symbols}{} %removes navigation
+
+% proper highlightling of a code-snippet
+\lstset{language=C++,
+	keywordstyle=\color{magenta},
+	stringstyle=\color{Goldenrod},
+	commentstyle=\color{gray},
+	breaklines=false,
+	%morecomment=[l][\color{magenta}]{\#}
+}
+
+%\setlength{\parskip}{8pt}
+\input{header} %all defs
+\begin{document}
+	
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{We've studied so far}
+	\Large 
+	\begin{itemize}
+		\item  {\color{Orange} Pseudo random generators} 
+		\item {\color{Orange} Stream Ciphers} 
+		\item {\color{Orange} Block Ciphers} 
+		\item {\color{Orange} Message Authentication Codes}
+		\item {\color{Orange} Hash functions}  
+		\item {\color{Orange} Authenticated Encryption}  
+	\end{itemize}
+
+\vspace{15pt}
+\centering
+\pause 
+Except PRGs, all these primitives require {\color{Orange} a shared key}.\\[10pt]
+Where does this key come from? \\[10pt]
+\pause
+Use public key crypto!
+
+\end{frame}
+
+\begin{frame}{Diffie-Hellman Key Exchange}
+\centering
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+		\includegraphics[width=0.65\linewidth]{Whit_Diffie}\\
+		Whitfield Diffie
+	\end{column}
+	\begin{column}{0.5\textwidth}
+	\includegraphics[width=0.6\linewidth]{Martin-Hellman}\\
+	Martin Hellman \hfill 	\small \textcopyright Wikipedia
+\end{column}
+\end{columns}
+\vspace{15pt}
+\large
+	\begin{itemize}
+		\item published by Whitfield Diffie and Martin Hellman in 1976
+		\item largely used in modern Internet protocols (TLS)
+		\item relies on hardness of the discrete logarithm problem
+	\end{itemize}
+\end{frame}
+
+%\begin{frame}{Trusted Third Party (Доверенная сторона)}
+
+%\end{frame}
+
+\begin{frame}{Math crash course I: modulo arithmetic}
+	\Large 
+	{\color{Orange} Let $p$ be a large prime (approx.\ 2000bits)}
+	\begin{itemize}
+		\item $\Zp = \left\{ 0, 1, \ldots, p-1 \right\}$ -- finite field 
+		\pause
+		\item elements in $\Zp$ are added and multiplied modulo $p$, i.e., for $x, y \in \Zp$
+	\begin{align*}
+			x+y \bmod p &= \rem(x+y, p) \\
+			x\cdot y \bmod p &= \rem(x\cdot y, p)
+	\end{align*}
+	{\large $\rem $ -- remained (остаток от целочисл.\ деления)}\\
+	\pause
+	Ex.: $p  = 7, \Zp = \{0, 1, 2, 3, 4, 5, 6\}$
+	\begin{align*}
+	5+6 \bmod p &= \rem(11, 7) = 4 \\
+	3\cdot 3  \bmod p &= \rem(9, 7) = 2
+	\end{align*}
+	\pause
+	\item For each non-zero $x \in \Zp$, $\exists x^{-1} \in \Zp$: $x \cdot x^{-1} = 1 \bmod p$\\
+	Ex.:  $1^{-1} = 1$, $2^{-1} = 4$, $3^{-1} = 5$,  $4^{-1} = 2$, $5^{-1} = 3$, $6^{-1} = 6$\\  in $\Z_7$.
+	\item The set of invertible elements is denoted $\Zp^{\ast} = \Zp \setminus \{0\}$
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Math crash course I: structure of $\Zp^\ast$ }
+\Large
+\begin{itemize}
+	\itemsep 10pt
+	\item {\color{Orange} Fermat's theorem:} $g^{p-1} = 1 \bmod p \; \; \forall 0 \neq g \in \Zp$\\
+	Ex.: $2^6 = 64 = 1 \bmod 7$
+	\item $\Zp^\ast$ is a {\color{Orange} cyclic group}, i.e., \\
+	$\exists g \in \Zp$ s.t.\ $\Zp^\ast = \{1 = g^0, g^1, g^2, \ldots, g^{p-2}\}$ \\
+	Ex. $\Z_7^\ast = \{1, 3, 3^2 = 2, 3^3 = 6, 3^4 = 4, 3^5 = 5\}$ 
+	\pause
+	\item Not every element is a generator of  $\Zp$, but for interesting fields we know how to do it efficiently
+	\pause
+	\item The {\color{Orange} order} of $g \in \Zp$, $\ord(g)$, is the {\color{Orange} smallest} positive $a$ s.t.\ $g^a = 1$ \\
+	For any generator $g$, $\ord(g) = p-1$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Math crash course I: computing in $\Zp$ }
+	\large
+	Arithmetic operations in $\Zp$ are measured in $n = \lceil \log p \rceil$
+	\begin{itemize}
+		\itemsep 10pt
+		\item Addition is performed in $\bigO(n)$ bit operations
+		\item Multiplication in $\bigO(n^2)$ (better in $\bigO(n^{1.7})$) bit operations
+		\item Inversion in  $\bigO(n^2)$ bit operations
+		\pause
+		\item Exponentiation $x^r$ in time  $\bigO(\log r)$ multiplications in $\Zp$ (repeated squaring algorithm)\\
+		\begin{itemize}
+			\item $y \leftarrow g$, $z \leftarrow 1$
+			\item \texttt{for $i$ in $[0, n]$:}
+			\item \hspace{10pt}  \texttt{if $r[i]==1$ :} $z \leftarrow z \cdot y$
+			\item \hspace{10pt}  $y \leftarrow y^2$
+			\item \texttt{return} $z$
+		\end{itemize}
+		\pause 
+		Ex.: compute $g^r$ for $r = 23 = (10111)_2$. I.e., $g^{23} = g^{16+4+2+1}$. \\
+		\[
+			g^1 \rightarrow g^{1+2} \rightarrow g^{1+2+4} \rightarrow  g^{1+2+4} \rightarrow g^{1+2+4+16} 
+		\]
+	
+	\end{itemize}
+
+\vspace{15pt}
+\centering
+\Large
+These operations are {\color{Orange} {efficient}} in $\Zp$.
+\end{frame}
+
+\begin{frame}{Math crash course I: (believed to  be) hard problems in $\Zp$}
+	\large
+	\begin{enumerate}
+		\itemsep 10pt
+		\item {\color{Orange}{The discrete logarithm problem} (dlog):} \\
+			Given $g$ -- a generator of $\Zp^\ast$ and $x \in \Zp^\ast$, find $r$ s.t.\ $g^r = x \bmod p$ \\
+			Example: Given $\langle 3 \rangle =  \Z_7^\ast$ and $5$ find $r = 5$ ($3^5 = 5$).
+			\pause
+		\item The {\color{Orange}{Computational Diffie-Hellman problem} (CDH):} \\
+			Given $g$ -- a generator of $\Zp^\ast$,  $x = g^r \in \Zp^\ast$, $y = g^t \in \Zp^\ast$ find $z = g^{r\cdot t} \bmod p$. \\
+			Example: Given $\langle 3 \rangle  = \Z_7^\ast$ and $x = 2, y = 6 $ find $z = 3^5 = 5 \bmod p$.
+		\pause
+		\item If one can solve dlog, one can also solve CDH
+		\item The other direction is not known in general
+		\Large
+		\item {\color{Orange}{The hardness of both problems depend on the choice of $p$!} Not every prime gives a hard instance of dlog/CDH. }
+	\end{enumerate}
+\centering NEVER CHOOSE $p$ YOURSELF.
+\end{frame}
+
+\begin{frame}{How hard are dlog/CDH?}
+	\Large 
+	Best known algorithm for computing dlog in $\Zp^\ast$ for $n=\log p$:\\[5pt]
+	\huge General Number Field Sieve \Large runs in time roughly \Huge {\color{Orange}$e^{n^{1/3}}$}\\[5pt]
+	\Large
+	This is sub-exponential runtime \\
+	\pause
+	If we want to achieve the same level of security as a block-cipher with {\color{Orange}128} bit key, we need 
+	\[
+		n \approx {\color{Orange}3072} \text{ bits}
+	\]
+	
+	Instead of using $\Zp^\star$, in practice we use Elliptic Curves to reduce the size of the group. 
+\end{frame}
+
+\begin{frame}{Diffie-Hellman Key Exchange}
+\Large
+\begin{center}
+Fix  a large prime $p$, and $\langle g \rangle = \Zp^\ast$
+\large 
+	\begin{center}
+		\begin{tabular}{l c c c l}
+			& Alice  & & Bob &  \\
+			& \multirow{5}{*}{\includegraphics[scale=0.15]{Alice}} & & 
+			\multirow{5}{*}{\includegraphics[scale=0.15]{Bob}} &    \\
+			\pause
+			$a \leftarrow \{2, \ldots, p-2 \}$ & & &  &  $b \leftarrow \{2, \ldots, p-2 \}$ \\
+			\pause
+			$k_\text{A} = g^a \bmod p$ & & $\xrightarrow{ \hspace{10pt } \Huge k_\text{A} \hspace{10pt } }$  &  & $k_\text{B} = g^b \bmod p$ \\
+			\pause
+		& & $\xleftarrow{ \hspace{10pt } \Huge k_\text{B} \hspace{10pt } }$  &  & \\
+		\pause
+		$k_\text{AB} =   k_\text{B}^a$ & &  &  & $k_\text{AB} =   k_\text{A}^b$ 
+		\end{tabular}
+	\end{center}
+\vspace{15pt}
+{\color{Orange}$k_\text{AB}$} -- shared key \\[10pt]
+\end{center}
+\pause
+{\color{Orange}Correctness:} $k_\text{B}^a = (g^b)^a = g^{ab} = (g^a)^b=  k_\text{A}^b$.\\[5pt]
+{\color{Orange}Security(informally): } adversary sees $g^a, g^b$. To get the shared key it  should come up with $g^{ab}$. \\
+This is an instance of the {\color{Orange} Computational Diffie-Hellman problem}
+\end{frame}
+
+\begin{frame}{Man-in-the-middle attack (active)}
+\Large
+As described the protocol is insecure against {\color{Orange} active} attacks.
+\large
+\begin{center}
+	\begin{tabular}{l c c c c c l}
+		& Alice  & & Eve & & Bob &  \\
+		& \multirow{5}{*}{\includegraphics[scale=0.10]{Alice}} & & 
+		\multirow{5}{*}{\includegraphics[scale=0.10]{Eve}} & &
+		\multirow{5}{*}{\includegraphics[scale=0.10]{Bob}} &    \\
+		\pause
+		$k_\text{A} = g^a \bmod p$ & & $\xrightarrow{ \hspace{5pt } \Huge k_\text{A} \hspace{5pt } }$  &  & $\xrightarrow{ \hspace{5pt } \Huge g^{a'} \hspace{5pt} }$ &  &$k_\text{B} = g^b \bmod p$ \\
+		\pause
+		 & & $\xleftarrow{ \hspace{5pt } \Huge g^{b'} \hspace{5pt } }$  &  & $\xleftarrow{ \hspace{5pt } \Huge k_\text{B} \hspace{5pt} }$ &  &\\[15pt]
+		 \pause
+		 &\Huge  $g^{ab'}$ & \multicolumn{3}{c} {\Huge $g^{ab'}$, $g^{a'b}$} & \Huge $g^{a'b}$ &\\
+		\end{tabular}
+\end{center}
+\pause
+\centering
+\vfill
+There are ways to fix this attack, you'll see them in the next lectures
+\end{frame}
+
+\begin{frame}{Real world Diffie-Hellman}
+\Large
+\begin{itemize}
+	\itemsep 10pt
+	\item The Man-in-the-Middle attack can be mitigated by using {\color{Orange} Authenticated Encryption} (requires public key signature: wait until next lecture!)
+	\item Real world Diffie-Hellman does not use in $\Zp^*$ but Elliptic Curve, it's called  {\color{Orange} ECDH} 
+	\item It is {\color{Orange}{non-trivial}} to build a  {\color{Orange}{secure}} group for the protocol. Don't try yourself, use standards
+	\item For practical purposes we have a pool of parameters (Elliptic Curves), see e.g.\ \url{https://safecurves.cr.yp.to/}
+	\item There is no GOST for Key Exchange, but it is being shipped with CryptoPRO software (there are recommended elliptic curves)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Programming Assignments 6}
+\Large
+
+{\color{Orange}{Task}:} implement Diffie-Hellman key exchange. \\[10pt]
+You may use OpenSSL in-built functions \\[10pt]
+You may chose any group available in OpenSSL\\
+You can find the list of supported curves via
+\[
+\mathtt{openssl ecparam -list_curves}
+\]
+\noindent To find the NID of the curve use\\ \url{https://github.com/openssl/openssl/blob/4e6647506331fc3b3ef5b23e5dbe188279ddd575/include/openssl/obj_mac.h}\\
+ 
+There is no default curve! 
+
+\end{frame}
+
+
+
+\end{document}
